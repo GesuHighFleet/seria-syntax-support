@@ -1,0 +1,31 @@
+{
+m_classname=Node
+=Node
+=
+
+m_code=7
+    m_id=-8498615426845526398
+	m_name=!Empty
+m_children=31
+"m_classname"="Frame\n"
+"m_code"=31
+m_id="-1866769997608539420"
+{
+m_classname=Meshf
+m_tele_fuel_time=-nan(ind)
+m_logic_active=true
+true
+m_oid=MDL_LEG_04
+MDL_LEG_04
+m_size=4
+m_tele_dynamic_map_repaired=1.00703
+m_tele_dynamic_map=-3.53927e+07
+m_tele_mass=3.53927e+07
+4
+-3.42946
+3.42946
+-3.42946
+3.42946
+3.42947
+}
+}

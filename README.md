@@ -4,7 +4,7 @@ by RedMoon
 
 A simple syntax highlighting plugin for .seria files of Haaf's Game Engine, most famously used by the video game HighFleet.
 
-* To start using your extension with Visual Studio Code copy it into the `<user home>/.vscode/extensions` folder and restart Code.
+* To start using your extension with Visual Studio Code copy it into the `%UserProfile%/.vscode/extensions/seria-language-support-1.1.2/` folder and restart Code.
 
 ## Known Issues
 

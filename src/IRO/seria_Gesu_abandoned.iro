@@ -1,0 +1,226 @@
+#################################################################
+## Iro
+################################################################
+##
+## * Press Ctrl + '+'/'-' To Zoom in
+## * Press Ctrl + S to save and recalculate...
+## * Documents are saved to web storage.
+## * Only one save slot supported.
+## * Matches cannot span lines.
+## * Unicode chars must be defined in \u0000 to \uffff format.
+## * All matches must be contained by a single group ( ... )
+## * Look behinds not permitted, (?<= or (?<!
+## * Look forwards are permitted (?= or (?!
+## * Constants are defined as __my_const = (......)
+## * The \= format allows unescaped regular expressions
+## * Constants referenced by match \= $${__my_const}
+## * Constants can reference other constants
+## * You are free to delete all the default scopes.
+## * Twitter : ainslec , Web: http://eeyo.io/iro
+##
+################################################################
+
+
+
+
+
+#############################################################
+## JSON Syntax highlighter
+#############################################################
+
+name                   = seria_Gesu
+file_extensions []     = seria;
+
+################################################################
+## Constants
+################################################################
+
+__MY_CONSTANT \= (\b[a-z][a-z0-9]*)
+
+################################################################
+## Styles
+################################################################
+
+styles [] {
+   .escape_char : style {
+      textmate_scope   = constant.character.escape
+      pygments_scope   = String.Escape
+      color            = #0a0
+      background_color = #232
+   }
+   .illegal : style {
+      textmate_scope   = invalid.illegal
+      pygments_scope   = Generic.Error
+      color            = white
+      background_color = red
+   }
+   .punctuation : style {
+      textmate_scope   = keyword.operator
+      pygments_scope   = Punctuation
+      #color            = red_2
+      color            = light_blue
+   }
+   #.attribute_value : style {
+   #   textmate_scope   = string.unquoted
+   #   pygments_scope   = String.Char
+   #   color            = gold
+   #}
+   .special : style {
+      textmate_scope   = storage.type
+      pygments_scope   = Keyword.Type
+      color            = #6bc
+   }
+   #
+   # MY STYLES
+   #
+   # based on https://stackoverflow.com/a/658662/8175291
+   .seria_value_sci_notation : style {
+      textmate_scope = scientific_notation
+      pygments_scope = String
+      #color          = #6bc
+      color          = yellow
+   }
+   .seria_value_constants : style {
+      textmate_scope = constant.text
+      pygments_scope = Keyword.Reserved
+      #color          = red_2
+      color          = orange
+   }
+   .seria_value_bool : style {
+      textmate_scope = boolean
+      pygments_scope = String.Char
+      color          = gold
+   }
+   .seria_value_float : style {
+      textmate_scope = constant.numeric.float
+      pygments_scope = Number.Float
+      color          = gold
+   }
+   .seria_value_int : style {
+      textmate_scope = constant.numeric
+      pygments_scope = Number.Integer
+      #color          = #6bc
+      color          = green
+   }
+   .seria_value_general : style {
+      ace_scope      = text
+      textmate_scope = text
+      pygments_scope = Generic.Strong
+      #color          = #6bc
+      color          = light_blue
+   }
+   .seria_value_string_quoted : style {
+      #color          = #6bc
+      color          = gold
+      textmate_scope = string.quoted
+      pygments_scope = String.Double
+   }
+   .seria_value_string : style {
+      #color          = #6bc
+      color          = white
+      textmate_scope = string.unquoted
+      pygments_scope = String.Single
+   }
+   .seria_key : style {
+      textmate_scope = key
+      pygments_scope = Keyword.Declaration
+      color          = light_green
+   }
+   #
+   # ============
+   #
+}
+
+
+contexts [] {
+   main : context {
+      : inline_push {
+         regex       \= (\{)
+         styles []    = .punctuation;
+         : pop {
+            regex    \= (\})
+            styles [] = .punctuation;
+         }
+         : include "main" ;
+      }
+      : inline_push {
+         regex       \= (\[)
+         styles []    = .punctuation;
+         : pop {
+            regex    \= (\])
+            styles [] = .punctuation;
+         }
+         : include "main" ;
+      }
+      : pattern {
+         regex       \= (\=)
+         styles []    = .punctuation;
+      }
+      : inline_push {
+         regex       \= (\")
+         styles []    = .punctuation;
+         : pop {
+            regex    \= (\")
+            styles [] = .punctuation;
+         }
+         : pattern {
+            regex    \= ([^\"\\]+)
+            styles [] = .seria_value_string_quoted;
+         }
+      }
+      #
+      # MY CONTEXTS
+      #
+      : pattern {
+         regex       \= ((?<=^|=)-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+\-]?\d+)+)
+         styles []    = .seria_value_sci_notation;
+      }
+      : pattern {
+         regex       \= (?=[^|=][A-Z]{2,}[^a-z\n]*)(?:(.+))
+         styles []    = .seria_value_constants;
+      }
+      : pattern {
+         regex       \= ((?=[^|=])null$|\-nan\(ind\)$)
+         styles []    = .seria_value_constants;
+      }
+      : pattern {
+         regex       \= (true$|false$)
+         styles []    = .seria_value_bool;
+      }
+      : pattern {
+         regex       \= (((?=[^|=])\-?\d+\.+\d*[^e])$)
+         styles []    = .seria_value_float;
+      }
+      : pattern {
+         regex       \= ((?=[^|=])\-?\d+)
+         styles []    = .seria_value_int;
+      }
+      : pattern {
+         regex       \= ((?<==)(\w+))
+         styles []    = .seria_value_string;
+      }
+      : pattern {
+         regex       \= ((?<==)(.*))
+         styles []    = .seria_value_general;
+      }
+      : pattern {
+         regex       \= (^.*?(?==))
+         styles []    = .seria_key;
+      }
+      #
+      # ============
+      #
+      : pattern {
+         regex       \= ((?=[^|=][A-Z]+[^a-z\n]*)(?:(\w+)))
+         styles []    = .seria_value_string_quoted;
+      }
+      : pattern {
+         regex       \= ((?:\-?(?:0|(?:[1-9][0-9]*)))(?:(?:\.[0-9]*)(?:(?:e|E)(?:\+|\-)[0-9]+)?)?)
+         styles []    = .special;
+      }
+      : pattern {
+         regex       \= ([^\s])
+         styles []    = .illegal;
+      }
+   }
+}

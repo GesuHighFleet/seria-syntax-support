@@ -1,10 +1,10 @@
 {
   "name": "seria-syntax-support",
-  "displayName": "SERIA Syntax Support",
-  "description": "An extension to support syntax highlighting of .seria files of Haaf's Game Engine, most famously used by the game HighFleet",
-  "version": "1.1.0",
+  "displayName": "HGESDK Seria Syntax Support",
+  "description": "A simple syntax highlighting plugin for .seria files of Haaf's Game Engine, most famously used by the video game HighFleet.",
+  "version": "1.1.2",
   "engines": {
-    "vscode": "^1.73.0"
+    "vscode": "^1.80.0"
   },
   "categories": [
     "Programming Languages"
@@ -12,14 +12,26 @@
   "contributes": {
     "languages": [{
       "id": "seria",
-      "aliases": [".seria", "seria"],
+      "aliases": ["HGESDK Seria", "seria"],
+      "firstLine": "^{{1}$",
       "extensions": [".seria"],
-      "configuration": "./language-configuration.json"
+      "filenames": [],
+      "configuration": "./syntaxes/language-configuration.json",
+      "icon": {
+        "light": "./src/logo.png",
+        "dark": "./src/logo.png"
+      }
     }],
     "grammars": [{
       "language": "seria",
       "scopeName": "source.seria",
       "path": "./syntaxes/seria.tmLanguage.json"
+    }],
+    "themes": [{
+      "label": "foo",
+      "id": "foo",
+      "uiTheme": "vs-dark",
+      "path": "theme.json"
     }]
   }
 }

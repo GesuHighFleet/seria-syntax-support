@@ -1,0 +1,144 @@
+{
+  "information_for_contributors": [],
+  "name": "HGE Seria",
+  "patterns": [
+    {
+      "include": "#object"
+    },
+    {
+      "include": "#key"
+    },
+    {
+      "include": "#value"
+    },
+
+    {
+      "include": "#constant"
+    },
+    {
+      "include": "#number"
+    },
+    {
+      "include": "#keywords"
+    },
+    {
+      "include": "#strings"
+    }
+  ],
+  "repository": {
+    "key": {
+      "match": "^(?![\"\\t ]\\w*)\\w+(?==)",
+      "name": "support.type.property-name.seria"
+    },
+    "value":{
+      "match": "((?!.*=)^[^\n{}].*)$|((?<=.=)[^\n\"].*)$",
+      "name": "string.quoted.double.seria"
+    },
+
+    "object": {
+      "begin": "\\{",
+      "beginCaptures": {
+        "0": {
+          "name": "punctuation.definition.dictionary.begin.seria"
+        }
+      },
+      "end": "\\}",
+      "endCaptures": {
+        "0": {
+          "name": "punctuation.definition.dictionary.end.seria"
+        }
+      },
+      "name": "meta.structure.dictionary.seria",
+      "patterns": [
+        {
+          "comment": "the Seria object key",
+          "include": "#key"
+        },
+        {
+          "begin": "=",
+          "beginCaptures": {
+            "0": {
+              "name": "punctuation.separator.dictionary.key-value.seria"
+            }
+          },
+          "end": "(?=\\})",
+          "endCaptures": {
+            "1": {
+              "name": "punctuation.separator.dictionary.pair.seria"
+            }
+          },
+          "name": "meta.structure.dictionary.value.seria",
+          "patterns": [
+            {
+              "comment": "the Seria object value",
+              "include": "#value"
+            },
+            {
+              "match": "[\\s,]",
+              "name": "invalid.illegal.expected-dictionary-separator.seria"
+            }
+          ]
+        },
+        {
+          "match": "[\\s][^\\}]",
+          "name": "invalid.illegal.expected-dictionary-separator.seria"
+        }
+      ]
+    },
+    "objectkey": {
+      "begin": "\"",
+      "beginCaptures": {
+        "0": {
+          "name": "punctuation.support.type.property-name.begin.seria"
+        }
+      },
+      "end": "\"",
+      "endCaptures": {
+        "0": {
+          "name": "punctuation.support.type.property-name.end.seria"
+        }
+      },
+      "name": "string.seria support.type.property-name.seria",
+      "patterns": [
+        {
+          "include": "#stringcontent"
+        }
+      ]
+    },
+    "constant": {
+      "match": "(?:true|false|-nan\\(ind\\))$",
+      "name": "constant.language.seria"
+    },
+    "number": {
+      "match": "(?x)(?<=[^A-z0-9])-?(?:0|[1-9]\\d*)(?:(?:\\.\\d+)?(?:[eE][+-]?\\d+)?)?",
+      "name": "constant.numeric.seria"
+    },
+    "keywords": {
+      "patterns": [{
+        "match": "\\b(Node|Frame|Body|Creature|Mesh|Sprite|Slot)\\b",
+        "name": "keyword.control.seria"
+      }]
+    },
+    "strings": {
+      "name": "string.quoted.double.seria",
+      "patterns": [
+        {
+          "match": "\\\\.",
+          "name": "constant.character.escape.seria"
+        }
+      ]
+    },
+    "strings_true": {
+      "name": "string.quoted.double.seria",
+      "begin": "\"",
+      "end": "\"",
+      "patterns": [
+        {
+          "match": "\\\\.",
+          "name": "constant.character.escape.seria"
+        }
+      ]
+    }
+  },
+  "scopeName": "source.seria"
+}

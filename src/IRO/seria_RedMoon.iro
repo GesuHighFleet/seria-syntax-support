@@ -1,0 +1,157 @@
+#################################################################
+## Iro
+################################################################
+##
+## * Press Ctrl + '+'/'-' To Zoom in
+## * Press Ctrl + S to save and recalculate...
+## * Documents are saved to web storage.
+## * Only one save slot supported.
+## * Matches cannot span lines.
+## * Unicode chars must be defined in \u0000 to \uffff format.
+## * All matches must be contained by a single group ( ... )
+## * Look behinds not permitted, (?<= or (?<!
+## * Look forwards are permitted (?= or (?!
+## * Constants are defined as __my_const = (......)
+## * The \= format allows unescaped regular expressions
+## * Constants referenced by match \= $${__my_const}
+## * Constants can reference other constants
+## * You are free to delete all the default scopes.
+## * Twitter : ainslec , Web: http://eeyo.io/iro
+##
+################################################################
+
+name               = seria
+file_extensions [] = seria;
+#schema             = https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json
+
+################################################################
+## Constants
+################################################################
+
+__BOOLEAN     \= (\b(true)|(false)\b)
+
+#__NUMBER      \= (\b[0-9]+\.?[0-9]*\b)
+#__NUMBER      \= (/(?x)-?(?:0|[1-9]\d*)(?:(?:\.\d+)?(?:[eE][+-]?\d+)?)?/gm)
+__NUMBER      \= (-?(?:0|[1-9]\d*)(?:(?:\.\d+)?(?:[eE][+-]?\d+)?)?)
+
+#__KEY         \= (\bm_[^=]+\b)
+__KEY         \= (^(?!.*".*).*(?==))
+
+#__VALUE       \= (\b[a-zA-Z_]+\w*\b)
+__VALUE       \= ((?<==).*$)|(^(?!.*=).*$)
+
+__PUNCTUATION \= (^{|=|}$)
+__ILLEGAL     \= ([^\s])
+
+################################################################
+## Styles
+################################################################
+
+styles [] {
+
+
+.boolean : style {
+   color          = cyan
+   textmate_scope = constant.boolean
+   pygments_scope = String
+}
+.number : style {
+   color          = gold
+   textmate_scope = constant.numeric
+   pygments_scope = Number
+}
+
+.key : style {
+   color          = light_blue
+   textmate_scope = support.type.property-name
+   pygments_scope = Keyword.Type
+}
+.value : style {
+   color          = light_green
+   textmate_scope = string.quoted.double
+   pygments_scope = String.Double
+}
+
+.punctuation : style {
+   color          = red_2
+   textmate_scope = punctuation
+   pygments_scope = Punctuation
+}
+.illegal : style {
+   color            = white
+   background_color = red
+   textmate_scope   = invalid
+   pygments_scope   = Generic.Error
+}
+
+}
+
+#################################################
+## Parse contexts
+#################################################
+
+contexts [] {
+
+##############################################
+## Main Context - Entry point context
+##############################################
+
+main : context {
+
+   # punctuation
+   : pattern {
+      regex     = $${__PUNCTUATION}
+      styles [] = .punctuation;
+   }
+
+   : include "boolean" ;
+   : include "number" ;
+
+   : include "key" ;
+   : include "value" ;
+
+   # illegal
+   : pattern {
+      regex     = $${__ILLEGAL}
+      styles [] = .illegal;
+   }
+
+}
+
+###########################################
+## Misc Contexts
+###########################################
+
+boolean : context {
+   : pattern {
+      regex     = $${__BOOLEAN}
+      styles [] = .boolean;
+   }
+}
+key : context {
+   : pattern {
+      regex     = $${__KEY}
+      styles [] = .key;
+   }
+}
+number : context {
+   : pattern {
+      regex     = $${__NUMBER}
+      styles [] = .number;
+   }
+}
+value : context {
+   : pattern {
+      regex     = $${__VALUE}
+      styles [] = .value;
+   }
+}
+
+#################################################
+## End of Contexts
+#################################################
+
+}
+
+################################################################
+

@@ -1,0 +1,17 @@
+{
+  "name": "HGE Seria",
+  "patterns": [
+    {
+      "match": "\\b(\\w+)\\b\\s*(=)",
+      "captures": {
+        "1": {
+          "name": "keyword.other.definition.seria"
+        },
+        "2": {
+          "name": "punctuation.separator.dictionary.key-value.seria"
+        }
+      }
+    }
+  ],
+  "scopeName": "source.seria"
+}

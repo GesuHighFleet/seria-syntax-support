@@ -1,37 +1,72 @@
 {
-	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
-	"name": ".seria",
-	"patterns": [
-		{
-			"include": "#number"
-		},
-		{
-			"include": "#boolean"
-		},
-		{
-			"include": "#key"
-		},
-		{
-			"include": "#value"
-		}
-	],
-	"repository": {
-		"number": {
-			"match": "\\b[0-9]+\\.?[0-9]*\\b",
-			"name": "constant.numeric.seria"
-		},
-		"boolean": {
-			"match": "\\b(true)|(false)\\b",
-			"name": "constant.boolean.seria"
-		},
-		"key": {
-			"match": "\\bm_[^=]+\\b",
-			"name": "support.type.property-name.seria"
-		},
-		"value":{
-			"match": "\\b[a-zA-Z_]+\\w*\\b",
-			"name": "string.quoted.double.seria"
-		}
-	},
-	"scopeName": "source.seria"
+  "name": "HGE Seria",
+  "patterns": [{
+    "include": "#node"
+  }],
+
+  "repository": {
+
+    "number": {
+      "match": "\\b[0-9]+\\.?[0-9]*\\b",
+      "name": "constant.numeric.seria"
+    },
+    "boolean": {
+      "match": "\\b(true|false)\\b",
+      "name": "constant.boolean.seria"
+    },
+
+
+    "key": {
+      "comment": "\\bm_[^=]+\\b",
+      "match": "^(?![.])[\\w.]+(?==)",
+      "comment": "^(?![\"\\t ]\\w*)\\w+(?==)",
+      "comment": "^(?![\"\t ][\\w.]*)[\\w.]+(?==)",
+      "name": "string.json support.type.property-name.seria"
+    },
+    "value": {
+      "comment": "\\b[a-zA-Z_]+\\w*\\b",
+      "comment": "((?!.*=)^[^\n{}].*)$|((?<=.=)[^\n\"].*)$",
+      "match": "(^(?!.*=)[\\w.-]*)$|((?<=.=)[^\n\"].*)",
+      "name": "string.quoted.double.seria"
+    },
+
+
+    "nodekey": {
+      "captures": {
+        "1": {"name": "keyword.other.definition.seria"},
+        "2": {"name": "punctuation.separator.dictionary.key-value.seria"}
+      },
+      "match": "^\\w+(?==)",
+      "name": "string.json support.type.property-name.json"
+    },
+
+
+    "node": {
+      "begin": "\\{",
+      "beginCaptures": {"0": {"name": "punctuation.definition.dictionary.begin.seria"}},
+      "end": "\\}",
+      "endCaptures": {"0": {"name": "punctuation.definition.dictionary.end.seria"}},
+      "name": "meta.structure.dictionary.seria",
+      "patterns": [{
+        "comment": "the Seria node key",
+        "include": "#key"
+      }, {
+        "begin": "=",
+        "beginCaptures": {"0": {"name": "punctuation.separator.dictionary.key-value.seria"}},
+        "end": "(?=\\w*)\\n",
+        "endCaptures": {"1": {"name": "punctuation.separator.dictionary.pair.seria"}},
+        "name": "meta.structure.dictionary.value.seria",
+        "patterns": [{
+          "comment": "the Seria node value",
+          "include": "#value"
+        }, {
+          "match": "^[\\s,]",
+          "name": "invalid.illegal.expected-dictionary-separator.seria"
+        }]
+      }, {
+        "match": "^[\\s\\}]",
+        "name": "invalid.illegal.expected-dictionary-separator.seria"
+      }]}
+  },
+  "scopeName": "source.seria"
 }
