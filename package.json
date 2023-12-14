@@ -1,6 +1,6 @@
 {
   "name": "seria-syntax-support",
-  "displayName": "HGESDK Seria Syntax Support",
+  "displayName": "HGE SDK Seria Syntax Support",
   "description": "A simple syntax highlighting plugin for .seria files of Haaf's Game Engine, most famously used by the video game HighFleet.",
   "version": "1.1.2",
   "engines": {
@@ -12,7 +12,7 @@
   "contributes": {
     "languages": [{
       "id": "seria",
-      "aliases": ["HGESDK Seria", "seria"],
+      "aliases": ["HGE Seria", "seria"],
       "firstLine": "^{{1}$",
       "extensions": [".seria"],
       "filenames": [],

@@ -4,12 +4,8 @@
     {
       "match": "\\b(\\w+)\\b\\s*(=)",
       "captures": {
-        "1": {
-          "name": "keyword.other.definition.seria"
-        },
-        "2": {
-          "name": "punctuation.separator.dictionary.key-value.seria"
-        }
+        "1": {"name": "keyword.other.definition.seria"},
+        "2": {"name": "punctuation.separator.dictionary.key-value.seria"}
       }
     }
   ],

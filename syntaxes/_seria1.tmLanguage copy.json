@@ -37,24 +37,15 @@
 
     "object": {
       "begin": "\\{",
-      "beginCaptures": {
-        "0": {
-          "name": "punctuation.definition.dictionary.begin.seria"
-        }
-      },
+      "beginCaptures": {"0": {"name": "punctuation.definition.dictionary.begin.seria"}},
       "end": "\\}",
-      "endCaptures": {
-        "0": {
-          "name": "punctuation.definition.dictionary.end.seria"
-        }
-      },
+      "endCaptures": {"0": {"name": "punctuation.definition.dictionary.end.seria"}},
       "name": "meta.structure.dictionary.seria",
       "patterns": [
         {
           "comment": "the Seria object key",
           "include": "#key"
-        },
-        {
+        }, {
           "begin": "=",
           "beginCaptures": {
             "0": {
@@ -78,8 +69,7 @@
               "name": "invalid.illegal.expected-dictionary-separator.seria"
             }
           ]
-        },
-        {
+        }, {
           "match": "[\\s][^\\}]",
           "name": "invalid.illegal.expected-dictionary-separator.seria"
         }
@@ -87,17 +77,9 @@
     },
     "objectkey": {
       "begin": "\"",
-      "beginCaptures": {
-        "0": {
-          "name": "punctuation.support.type.property-name.begin.seria"
-        }
-      },
+      "beginCaptures": {"0": {"name": "punctuation.support.type.property-name.begin.seria"}},
       "end": "\"",
-      "endCaptures": {
-        "0": {
-          "name": "punctuation.support.type.property-name.end.seria"
-        }
-      },
+      "endCaptures": {"0": {"name": "punctuation.support.type.property-name.end.seria"}},
       "name": "string.seria support.type.property-name.seria",
       "patterns": [
         {
